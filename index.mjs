@@ -10,6 +10,12 @@ const url =
 const closeSignupModalSelector = '[data-test-id="sortCloseModal"]';
 const applyButtonSelector = '[data-test-id="jobDetailApplyButtonDesktop"]';
 
+// bot setup
+const bot = new TelegramBot(token, {
+  polling: true,
+});
+const subscribedUsers = new Set();
+
 // chromium setup
 const browser = await chromium.launch({
   headless: false,
