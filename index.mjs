@@ -1,34 +1,39 @@
-import { chromium } from "playwright";
+import { chromium, selectors } from "playwright";
+import TelegramBot from "node-telegram-bot-api";
+import "dotenv/config";
+
+// config
+const token = process.env.TELEGRAM_BOT_TOKEN;
+const timeout = process.env.TIMEOUT || 5000;
+const url =
+  "https://www.jobsatamazon.co.uk/app#/jobDetail?jobId=JOB-UK-0000000121&locale=en-GB";
+const closeSignupModalSelector = '[data-test-id="sortCloseModal"]';
+const applyButtonSelector = '[data-test-id="jobDetailApplyButtonDesktop"]';
 
 const browser = await chromium.launch({
   headless: false,
 });
+
 const context = await browser.newContext({
   permissions: [],
 });
+
 const page = await context.newPage();
 
 /* await page.goto("https://jobsatamazon.co.uk"); */
-await page.goto(
-  "https://www.jobsatamazon.co.uk/app#/jobDetail?jobId=JOB-UK-0000000121&locale=en-GB",
-);
+await page.goto(url);
 
 await page
   .getByRole("button", {
     name: "Accept all",
+    // name: "Customise",
     exact: false,
   })
   .click();
 
-await page.locator('[data-test-id="sortCloseModal"]').locator("..").click();
+await page.locator(closeSignupModalSelector).locator("..").click();
 
-await page
-  .locator("[data-test-component='MessageBannerDismissButton']")
-  .click();
-
-const applyButton = await page.locator(
-  '[data-test-id="jobDetailApplyButtonDesktop"]',
-);
+const applyButton = await page.locator(applyButtonSelector);
 
 const checkStatus = async () => !applyButton.isDisabled();
 
