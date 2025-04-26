@@ -10,6 +10,7 @@ const url =
 const closeSignupModalSelector = '[data-test-id="sortCloseModal"]';
 const applyButtonSelector = '[data-test-id="jobDetailApplyButtonDesktop"]';
 
+// chromium setup
 const browser = await chromium.launch({
   headless: false,
 });
@@ -23,6 +24,7 @@ const page = await context.newPage();
 /* await page.goto("https://jobsatamazon.co.uk"); */
 await page.goto(url);
 
+// accept cookies
 await page
   .getByRole("button", {
     name: "Accept all",
@@ -31,8 +33,10 @@ await page
   })
   .click();
 
+// close sign up thing
 await page.locator(closeSignupModalSelector).locator("..").click();
 
+// apply button
 const applyButton = await page.locator(applyButtonSelector);
 
 const checkStatus = async () => !applyButton.isDisabled();
