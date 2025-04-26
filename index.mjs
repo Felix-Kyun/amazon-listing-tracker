@@ -1,10 +1,8 @@
-import "dotenv/config";
 import { sendMessageToSubscribers } from "./bot.mjs";
 import { page } from "./chromium.mjs";
 import { applyButtonSelector, timeout } from "./config.mjs";
 
 const applyButton = page.locator(applyButtonSelector);
-
 const checkStatus = async () => !applyButton.isDisabled();
 
 let prevStatus = false;
