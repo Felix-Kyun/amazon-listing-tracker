@@ -23,7 +23,7 @@ await page
   })
   .click();
 
-// close sign up thing
+// close sign up thingy
 await page.locator(closeSignupModalSelector).locator("..").click();
 
 export { page };
