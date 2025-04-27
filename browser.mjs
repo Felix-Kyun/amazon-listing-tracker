@@ -1,8 +1,7 @@
-import { chromium } from "playwright";
+import { chromium, firefox } from "playwright";
 import { url, closeSignupModalSelector, headless } from "./config.mjs";
 
-// chromium setup
-const browser = await chromium.launch({
+const browser = await firefox.launch({
   headless,
 });
 
@@ -26,4 +25,5 @@ await page
 // close sign up thingy
 await page.locator(closeSignupModalSelector).locator("..").click();
 
+console.log("Page loaded");
 export { page };

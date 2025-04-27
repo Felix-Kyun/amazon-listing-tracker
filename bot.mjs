@@ -49,6 +49,8 @@ bot.onText(/\/start/, ({ chat: { id } }) => {
   );
 });
 
+console.log("Telegram bot started");
+
 export async function sendMessageToSubscribers(message) {
   for (const chatId of subscribedUsers) {
     bot.sendMessage(chatId, message);

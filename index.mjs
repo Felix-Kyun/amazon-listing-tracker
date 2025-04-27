@@ -1,13 +1,16 @@
 import { sendMessageToSubscribers } from "./bot.mjs";
-import { page } from "./chromium.mjs";
+import { page } from "./browser.mjs";
 import { applyButtonSelector, timeout } from "./config.mjs";
+import { saveScreenshot } from "./debug.mjs";
 
-const applyButton = page.locator(applyButtonSelector);
-const checkStatus = async () => !applyButton.isDisabled();
+const checkStatus = async () =>
+  !(await page.locator(applyButtonSelector).isDisabled());
 
 let prevStatus = false;
 while (true) {
+  await page.waitForTimeout(timeout);
   const status = await checkStatus();
+  await saveScreenshot(page);
 
   if (status !== prevStatus) {
     if (status) {
@@ -18,6 +21,5 @@ while (true) {
     prevStatus = status;
   }
 
-  await page.waitForTimeout(timeout);
   await page.reload();
 }
